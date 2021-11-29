@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +33,8 @@ public class TarjetaCreditoController {
 		log.info("Tarjetas aplicables: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
         List<TarjetaCredito> tarjetas = service.consultarTarjetasCredito(uso.toUpperCase() , salario , edad);
 		if(tarjetas.size()>0){
-			return ResponseEntity.ok(tarjetas);
+			//return ResponseEntity.ok(tarjetas);
+			return ResponseEntity.status(HttpStatus.OK).header("Operacion Exitosa", "Detalle").body(tarjetas);
 		}else {
 			return ResponseEntity.noContent().build();
 		}
@@ -43,7 +45,7 @@ public class TarjetaCreditoController {
 		log.info("Tarjetas aplicables: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
 		List<String> tarjetas = service.consultarTarjetasCreditoTipo(uso.toUpperCase() , salario , edad);
 		if(tarjetas.size()>0){
-			return ResponseEntity.ok(tarjetas);
+			return ResponseEntity.status(HttpStatus.OK).header("Operacion Exitosa", "Tipo").body(tarjetas);
 		}else {
 			return ResponseEntity.noContent().build();
 		}
