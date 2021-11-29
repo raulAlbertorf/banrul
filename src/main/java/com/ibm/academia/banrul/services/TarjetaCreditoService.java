@@ -1,8 +1,8 @@
 package com.ibm.academia.banrul.services;
 
 import java.util.List;
+import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibm.academia.banrul.entities.TarjetaCredito;
@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TarjetaCreditoService {
 
-	@Autowired
 	private final TarjetaCreditoRepository repository;
 
 	public List<TarjetaCredito> consultarTodas() {
@@ -29,7 +28,7 @@ public class TarjetaCreditoService {
 
 	}
 
-	public List<String> consultarTarjetasCreditoTipo(String uso , Integer salario , Integer edad) {
+	public Set<String> consultarTarjetasCreditoTipo(String uso , Integer salario , Integer edad) {
 
 		return repository.findByUsoSalarioEdadNombre(uso , salario , edad);
 

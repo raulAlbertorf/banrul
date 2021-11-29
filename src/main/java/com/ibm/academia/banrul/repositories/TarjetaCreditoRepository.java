@@ -1,6 +1,7 @@
 package com.ibm.academia.banrul.repositories;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ public interface TarjetaCreditoRepository extends JpaRepository<TarjetaCredito ,
 	List<TarjetaCredito> findByUsoSalarioEdad(String uso , Integer salario , Integer edad);
 	
 	@Query("select u.nombre from TarjetaCredito u where u.uso = ?1 and u.salarioMinimo<=?2 and salarioMaximo>=?2 and edadMinima<=?3 and edadMaxima>=?3")
-	List<String> findByUsoSalarioEdadNombre(String uso , Integer salario , Integer edad);
+	Set<String> findByUsoSalarioEdadNombre(String uso , Integer salario , Integer edad);
 	
 	@Query("select u from TarjetaCredito u where u.uso=?1 ")
 	List<TarjetaCredito> findByUso(String uso);

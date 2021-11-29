@@ -1,6 +1,7 @@
 package com.ibm.academia.banrul.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class TarjetaCreditoController {
 	
 	@GetMapping("/tarjetascredito/detalle")
     public ResponseEntity<List<TarjetaCredito>> aplicableUsoSalarioEdad(@RequestParam String uso , @RequestParam Integer salario , @RequestParam Integer edad){
-		log.info("Tarjetas aplicables: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
+		log.info("Tarjetas aplicables - Detalle: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
         List<TarjetaCredito> tarjetas = service.consultarTarjetasCredito(uso.toUpperCase() , salario , edad);
 		if(tarjetas.size()>0){
 			//return ResponseEntity.ok(tarjetas);
@@ -41,9 +42,9 @@ public class TarjetaCreditoController {
     }
 	
 	@GetMapping("/tarjetascredito/tipo")
-    public ResponseEntity<List<String>> aplicableUsoSalarioEdadTipo(@RequestParam String uso , @RequestParam Integer salario , @RequestParam Integer edad){
-		log.info("Tarjetas aplicables: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
-		List<String> tarjetas = service.consultarTarjetasCreditoTipo(uso.toUpperCase() , salario , edad);
+    public ResponseEntity<Set<String>> aplicableUsoSalarioEdadTipo(@RequestParam String uso , @RequestParam Integer salario , @RequestParam Integer edad){
+		log.info("Tarjetas aplicables - Tipo: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
+		Set<String> tarjetas = service.consultarTarjetasCreditoTipo(uso.toUpperCase() , salario , edad);
 		if(tarjetas.size()>0){
 			return ResponseEntity.status(HttpStatus.OK).header("Operacion Exitosa", "Tipo").body(tarjetas);
 		}else {
