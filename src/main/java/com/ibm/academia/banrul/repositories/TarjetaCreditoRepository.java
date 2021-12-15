@@ -5,7 +5,7 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.ibm.academia.banrul.entities.TarjetaCredito;
+import com.ibm.academia.banrul.models.entities.TarjetaCredito;
 
 public interface TarjetaCreditoRepository extends CrudRepository<TarjetaCredito , Long>{
 

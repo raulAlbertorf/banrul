@@ -1,9 +1,12 @@
 package com.ibm.academia.banrul.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.ibm.academia.banrul.exceptions.NotFoundException;
 
 public class GenericoDAOImpl<E, R extends CrudRepository<E, Long>> implements GenericoDAO<E> {
 
@@ -28,7 +31,11 @@ public class GenericoDAOImpl<E, R extends CrudRepository<E, Long>> implements Ge
 	@Override
 	@Transactional(readOnly = true)
 	public Iterable<E> buscarTodos() {
-		return repository.findAll();
+		Iterable<E> entidades = repository.findAll();
+		if(((List<E>)entidades).isEmpty()){
+			throw new NotFoundException(String.format("No se tienen registros"));
+		}
+		return entidades;
 	}
 
 	@Override

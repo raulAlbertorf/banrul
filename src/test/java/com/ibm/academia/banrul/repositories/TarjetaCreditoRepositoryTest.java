@@ -1,4 +1,4 @@
-package com.ibm.academia.banrul.repository;
+package com.ibm.academia.banrul.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.ibm.academia.banrul.datos.DatosDummy;
-import com.ibm.academia.banrul.entities.TarjetaCredito;
+import com.ibm.academia.banrul.models.entities.TarjetaCredito;
 import com.ibm.academia.banrul.repositories.TarjetaCreditoRepository;
 
 @DataJpaTest

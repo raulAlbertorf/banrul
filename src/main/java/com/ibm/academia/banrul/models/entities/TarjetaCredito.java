@@ -1,4 +1,4 @@
-package com.ibm.academia.banrul.entities;
+package com.ibm.academia.banrul.models.entities;
 
 import java.util.Date;
 import java.util.Objects;
@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -29,21 +30,32 @@ public class TarjetaCredito {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotEmpty(message = "No puede ser vacio")
+	@NotNull(message = "No puede ser nulo")
+	@Size(min = 2, max = 100)
 	@Column(name = "nombre", nullable = false, length = 100)
 	private String nombre;
 	
+	
+	@NotEmpty(message = "No puede ser vacio")
+	@NotNull(message = "No puede ser nulo")
+	@Size(min = 2, max = 30)
 	@Column(name = "uso")
 	private String uso;
 	
+	@Positive(message = "Debe ser mayor a cero")
 	@Column(name = "salario_minimo")
 	private Integer salarioMinimo;
 	
+	@Positive(message = "Debe ser mayor a cero")
 	@Column(name = "salario_maximo")
 	private Integer salarioMaximo;
 	
+	@Positive(message = "Debe ser mayor a cero")
 	@Column(name = "edad_minima")
 	private Integer edadMinima;
 	
+	@Positive(message = "Debe ser mayor a cero")
 	@Column(name = "edad_maxima")
 	private Integer edadMaxima;
 	

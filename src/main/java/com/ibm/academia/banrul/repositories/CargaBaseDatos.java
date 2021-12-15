@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ibm.academia.banrul.entities.TarjetaCredito;
+import com.ibm.academia.banrul.models.entities.TarjetaCredito;
 
 import org.springframework.boot.CommandLineRunner;
 
 @Configuration
 public class CargaBaseDatos {
-	private static final Logger log = LoggerFactory.getLogger(CargaBaseDatos.class);
+	Logger log = LoggerFactory.getLogger(CargaBaseDatos.class);
 
     @Bean
     CommandLineRunner initDatabase(TarjetaCreditoRepository tarjetaCreditoRepository) {

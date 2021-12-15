@@ -1,4 +1,4 @@
-package com.ibm.academia.banrul.repository.services;
+package com.ibm.academia.banrul.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.ibm.academia.banrul.datos.DatosDummy;
-import com.ibm.academia.banrul.entities.TarjetaCredito;
+import com.ibm.academia.banrul.models.entities.TarjetaCredito;
 import com.ibm.academia.banrul.repositories.TarjetaCreditoRepository;
 import com.ibm.academia.banrul.services.TarjetaCreditoDAO;
 import com.ibm.academia.banrul.services.TarjetaCreditoDAOImpl;

@@ -1,6 +1,6 @@
 package com.ibm.academia.banrul.datos;
 
-import com.ibm.academia.banrul.entities.TarjetaCredito;
+import com.ibm.academia.banrul.models.entities.TarjetaCredito;
 
 public class DatosDummy {
 
