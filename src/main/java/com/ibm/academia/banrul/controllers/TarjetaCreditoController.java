@@ -3,73 +3,56 @@ package com.ibm.academia.banrul.controllers;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ibm.academia.banrul.entities.TarjetaCredito;
-import com.ibm.academia.banrul.services.TarjetaCreditoService;
-
-import lombok.AllArgsConstructor;
+import com.ibm.academia.banrul.exceptions.NotFoundException;
+import com.ibm.academia.banrul.services.TarjetaCreditoDAO;
 
 @RestController
-@AllArgsConstructor
+@RequestMapping("/credito")
 public class TarjetaCreditoController {
 	
-	private static final Logger log = LoggerFactory.getLogger(TarjetaCreditoController.class);
-	private final TarjetaCreditoService service;
+	@Autowired
+	private TarjetaCreditoDAO tarjetaCreditoDAO;
 	
-	@GetMapping("/tarjetascredito")
-    public List<TarjetaCredito> all(){
-		log.info("Consulta todas las tarjetas de credito");
-        return service.consultarTodas();
-    }
-	
-	@GetMapping("/tarjetascredito/detalle")
-    public ResponseEntity<List<TarjetaCredito>> aplicableUsoSalarioEdad(@RequestParam String uso , @RequestParam Integer salario , @RequestParam Integer edad){
-		log.info("Tarjetas aplicables - Detalle: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
-        List<TarjetaCredito> tarjetas = service.consultarTarjetasCredito(uso.toUpperCase() , salario , edad);
-		if(tarjetas.size()>0){
-			//return ResponseEntity.ok(tarjetas);
-			return ResponseEntity.status(HttpStatus.OK).header("Operacion Exitosa", "Detalle").body(tarjetas);
-		}else {
-			return ResponseEntity.noContent().build();
+	@GetMapping("/listar/todas")
+    public ResponseEntity<?> buscarTodas(){
+		//log.info("Consulta todas las tarjetas de credito");
+		List<TarjetaCredito> tarjetasCredito =  (List<TarjetaCredito>) tarjetaCreditoDAO.buscarTodos();
+		if(tarjetasCredito.isEmpty()){
+			throw new NotFoundException("No se tienen tarjetas de credito");
 		}
+        return new ResponseEntity<List<TarjetaCredito>>(tarjetasCredito, HttpStatus.OK);
     }
 	
-	@GetMapping("/tarjetascredito/tipo")
-    public ResponseEntity<Set<String>> aplicableUsoSalarioEdadTipo(@RequestParam String uso , @RequestParam Integer salario , @RequestParam Integer edad){
-		log.info("Tarjetas aplicables - Tipo: ["+uso.toUpperCase()+" , "+salario+" , "+edad+"]");
-		Set<String> tarjetas = service.consultarTarjetasCreditoTipo(uso.toUpperCase() , salario , edad);
-		if(tarjetas.size()>0){
-			return ResponseEntity.status(HttpStatus.OK).header("Operacion Exitosa", "Tipo").body(tarjetas);
-		}else {
-			return ResponseEntity.noContent().build();
+	@GetMapping("/aplicable/detalle")
+	public ResponseEntity<?> aplicablePorUsoSalarioEdad(@RequestParam String uso, 
+																		@RequestParam Integer salario, 
+																		@RequestParam Integer edad){
+		List<TarjetaCredito> tarjetasAplicables = (List<TarjetaCredito>) tarjetaCreditoDAO.findByUsoSalarioEdad(uso.toUpperCase() , salario , edad);
+		if(tarjetasAplicables.isEmpty()) {
+			throw new NotFoundException(String.format("No contamos con una tarjeta adecuanda a tus necesidades: %s, salario: %d y edad: %d", uso,salario,edad));
 		}
-    }
-	
-	@GetMapping("/tarjetascredito/uso")
-	public List<TarjetaCredito> aplicableUso(@RequestParam String uso){
-		log.info("Tarjetas aplicable uso: ["+uso.toUpperCase()+"]");
-		return service.consultarUso(uso.toUpperCase());
+		
+		return new ResponseEntity<List<TarjetaCredito>>(tarjetasAplicables, HttpStatus.OK); 
+		
 	}
 	
-	@GetMapping("/tarjetascredito/salario")
-    public List<TarjetaCredito> aplicableSalario(@RequestParam Integer salario){
-		log.info("Tarjetas aplicable salario: ["+salario+"]");
-        return service.consultarSalario(salario);
-    }
-	
-	@GetMapping("/tarjetascredito/edad")
-    public List<TarjetaCredito> aplicableEdad(@RequestParam Integer edad){
-		log.info("Tarjetas aplicable edad: ["+edad+"]");
-        return service.consultarEdad(edad);
-    }
-	
-	
+	@GetMapping("/aplicable/nombre")
+	public ResponseEntity<?> aplicablePorUsoSalarioEdadNombre(@RequestParam String uso , @RequestParam Integer salario , @RequestParam Integer edad){
+		Set<String> tarjetasAplicables = tarjetaCreditoDAO.findByUsoSalarioEdadNombre(uso.toUpperCase() , salario , edad);
+		if(tarjetasAplicables.isEmpty()) {
+			throw new NotFoundException(String.format("No contamos con una tarjeta adecuanda a tus necesidades: %s, salario: %d y edad: %d", uso,salario,edad));
+		}
+		
+		return new ResponseEntity<Set<String>>(tarjetasAplicables, HttpStatus.OK); 
+	}	
 
 }
