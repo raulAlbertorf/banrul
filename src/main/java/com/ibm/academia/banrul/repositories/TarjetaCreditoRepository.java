@@ -15,7 +15,7 @@ public interface TarjetaCreditoRepository extends CrudRepository<TarjetaCredito 
 	@Query("select u.nombre from TarjetaCredito u where u.uso = upper(?1) and u.salarioMinimo<=?2 and salarioMaximo>=?2 and edadMinima<=?3 and edadMaxima>=?3")
 	Set<String> findByUsoSalarioEdadNombre(String uso , Integer salario , Integer edad);
 	
-	@Query("select u from TarjetaCredito u where u.uso=upper(?1) ")
+//	@Query("select u from TarjetaCredito u where u.uso=upper(?1) ")
 	Iterable<TarjetaCredito> findByUso(String uso);
 	
 	@Query("select u from TarjetaCredito u where u.salarioMinimo<=?1 and u.salarioMaximo>=?1")
